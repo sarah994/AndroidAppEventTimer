@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class EventTimerActivity extends AppCompatActivity {
 
     @Override
@@ -33,5 +36,22 @@ public class EventTimerActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startTimer(){
+        final long startMillis = System.currentTimeMillis();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                long elapsedMillis = System.currentTimeMillis() - startMillis;
+                updateView(elapsedMillis);
+            }
+        };
+        Timer timer = new Timer(true);
+        timer.schedule(task, 0, 1000); //elke seconde
+    }
+
+    private void updateView(final long elapsedMillis){
+        //
     }
 }
