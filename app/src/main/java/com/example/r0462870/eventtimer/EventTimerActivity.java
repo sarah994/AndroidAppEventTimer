@@ -1,19 +1,127 @@
 package com.example.r0462870.eventtimer;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class EventTimerActivity extends AppCompatActivity {
+public class EventTimerActivity extends AppCompatActivity
+        implements AdapterView.OnItemClickListener{
+    private RSSFeed feed;
+    private FileIO io;
+
+    private TextView titleTextView;
+    private ListView itemsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_timer);
+        io = new FileIO(getApplicationContext());
+
+        titleTextView = (TextView) findViewById(R.id.titleTextView);
+        itemsListView = (ListView) findViewById(R.id.itemsListView);
+
+        itemsListView.setOnItemClickListener(this);
+
+        new DownloadFeed().execute();
+    }
+
+    class DownloadFeed extends AsyncTask<Void, Void, Void>{
+        @Override
+        protected Void doInBackground(Void... params){
+            io.downloadFile();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+            Log.d("Event timer", "Feed Downloaded");
+            new ReadFeed().execute();
+        }
+    }
+
+    class ReadFeed extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params){
+            feed = io.readFile();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+            Log.d("Event timer", "Feed read");
+            EventTimerActivity.this.updateDisplay();
+        }
+    }
+
+    public void updateDisplay(){
+        if (feed == null) {
+            titleTextView.setText("Unable to get RSS feed");
+            return;
+        }
+
+        // set the title for the feed
+        titleTextView.setText(feed.getName());
+
+        // get the items for the feed
+        ArrayList<RSSItem> items = feed.getAllItems();
+
+        // create a List of Map<String, ?> objects
+        ArrayList<HashMap<String, String>> data =
+                new ArrayList<HashMap<String, String>>();
+        for (RSSItem item : items) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("time", item.getEventTimeFormatted());
+            map.put("name", item.getName());
+            data.add(map);
+        }
+
+        // create the resource, from, and to variables
+        int resource = R.layout.listview_item;
+        String[] from = {"time", "name"};
+        int[] to = {R.id.eventTimeTextView, R.id.titleTextView};
+
+        // create and set the adapter
+        SimpleAdapter adapter =
+                new SimpleAdapter(this, data, resource, from, to);
+        itemsListView.setAdapter(adapter);
+
+        Log.d("Event Timer", "Feed displayed");
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View v,
+                            int position, long id) {
+
+        // get the item at the specified position
+        RSSItem item = feed.getItem(position);
+
+        // create an intent
+        Intent intent = new Intent(this, EventTimerActivity.class);
+
+        intent.putExtra("time", item.getEventTime());
+        intent.putExtra("name", item.getName());
+        intent.putExtra("waypoint", item.getWaypoint());
+        intent.putExtra("location", item.getLocation());
+        intent.putExtra("pre", item.getPre());
+        intent.putExtra("preLocation", item.getPreLocation());
+        intent.putExtra("preWaypoint", item.getPreWaypoint());
+
+        this.startActivity(intent);
     }
 
     @Override
@@ -38,7 +146,7 @@ public class EventTimerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void startTimer(){
+    /*private void startTimer(){
         final long startMillis = System.currentTimeMillis();
         TimerTask task = new TimerTask() {
             @Override
@@ -54,4 +162,9 @@ public class EventTimerActivity extends AppCompatActivity {
     private void updateView(final long elapsedMillis){
         //
     }
+
+    /*@Override
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id){
+        RSSItem item = feed.getItem(position);
+    }*/
 }
