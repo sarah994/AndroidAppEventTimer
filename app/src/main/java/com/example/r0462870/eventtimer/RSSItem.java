@@ -26,7 +26,6 @@ public class RSSItem {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -34,7 +33,6 @@ public class RSSItem {
     public String getEventTime() {
         return eventTime;
     }
-
     public void setEventTime(String eventTime) {
         this.eventTime = eventTime;
     }
@@ -42,7 +40,6 @@ public class RSSItem {
     public String getWaypoint() {
         return waypoint;
     }
-
     public void setWaypoint(String waypoint) {
         this.waypoint = waypoint;
     }
@@ -50,7 +47,6 @@ public class RSSItem {
     public String getLocation() {
         return location;
     }
-
     public void setLocation(String location) {
         this.location = location;
     }
@@ -58,7 +54,6 @@ public class RSSItem {
     public String getPre() {
         return pre;
     }
-
     public void setPre(String pre) {
         this.pre = pre;
     }
@@ -66,7 +61,6 @@ public class RSSItem {
     public String getPreLocation() {
         return preLocation;
     }
-
     public void setPreLocation(String preLocation) {
         this.preLocation = preLocation;
     }
@@ -74,18 +68,18 @@ public class RSSItem {
     public String getPreWaypoint() {
         return preWaypoint;
     }
-
     public void setPreWaypoint(String preWaypoint) {
         this.preWaypoint = preWaypoint;
     }
 
     public String getEventTimeFormatted() {
         try {
-            Date date = dateInFormat.parse(eventTime.trim());
+            return eventTime;
+            /*Date date = dateInFormat.parse(eventTime.trim());
             String pubDateFormatted = dateOutFormat.format(date);
-            return pubDateFormatted;
+            return pubDateFormatted;*/
         }
-        catch (ParseException e) {
+        catch (/*Parse*/Exception e) {
             throw new RuntimeException(e);
         }
     }

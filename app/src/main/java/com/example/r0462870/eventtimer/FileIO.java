@@ -18,7 +18,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 public class FileIO {
-    private final String URL_STRING = "http://github.com/sarah994/TimerDataXml/blob/master/boss_timers.xml";
+    private final String URL_STRING = "https://raw.githubusercontent.com/sarah994/TimerDataXml/master/boss_timers.xml";
     private final String FILENAME = "boss_data.xml";
     private Context context = null;
 

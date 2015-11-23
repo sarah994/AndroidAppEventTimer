@@ -10,8 +10,6 @@ import java.util.Locale;
  * Created by r0462870 on 9/11/2015.
  */
 public class RSSFeed {
-    public final static String NEW_FEED = "com.example.r0462870.eventtimer.NEW_FEED";
-
     private String name = null;
     private String eventTime = null;
     private ArrayList<RSSItem> items;
@@ -35,11 +33,11 @@ public class RSSFeed {
         this.eventTime = eventTime;
     }
 
-    public String getEventTime() {
+    public String getEventTimeMillis() {
         return eventTime;
     }
 
-    public long getEventTimeMillis() {
+    /*public long getEventTimeMillis() {
         try {
             Date date = dateInFormat.parse(eventTime.trim());
             return date.getTime();
@@ -47,7 +45,7 @@ public class RSSFeed {
         catch (ParseException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     public int addItem(RSSItem item) {
         items.add(item);

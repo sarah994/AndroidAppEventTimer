@@ -73,34 +73,33 @@ public class EventTimerActivity extends AppCompatActivity
             titleTextView.setText("Unable to get RSS feed");
             return;
         }
+            // set the title for the feed
+            titleTextView.setText(""/*feed.getName()*/);
 
-        // set the title for the feed
-        titleTextView.setText(feed.getName());
+            // get the items for the feed
+            ArrayList<RSSItem> items = feed.getAllItems();
 
-        // get the items for the feed
-        ArrayList<RSSItem> items = feed.getAllItems();
+            // create a List of Map<String, ?> objects
+            ArrayList<HashMap<String, String>> data =
+                    new ArrayList<HashMap<String, String>>();
+            for (RSSItem item : items) {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("eventTime", item.getEventTimeFormatted());
+                map.put("name", item.getName());
+                data.add(map);
+            }
 
-        // create a List of Map<String, ?> objects
-        ArrayList<HashMap<String, String>> data =
-                new ArrayList<HashMap<String, String>>();
-        for (RSSItem item : items) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("time", item.getEventTimeFormatted());
-            map.put("name", item.getName());
-            data.add(map);
-        }
+            // create the resource, from, and to variables
+            int resource = R.layout.listview_item;
+            String[] from = {"eventTime", "name"};
+            int[] to = {R.id.eventTimeTextView, R.id.titleTextView};
 
-        // create the resource, from, and to variables
-        int resource = R.layout.listview_item;
-        String[] from = {"time", "name"};
-        int[] to = {R.id.eventTimeTextView, R.id.titleTextView};
+            // create and set the adapter
+            SimpleAdapter adapter =
+                    new SimpleAdapter(this, data, resource, from, to);
+            itemsListView.setAdapter(adapter);
 
-        // create and set the adapter
-        SimpleAdapter adapter =
-                new SimpleAdapter(this, data, resource, from, to);
-        itemsListView.setAdapter(adapter);
-
-        Log.d("Event Timer", "Feed displayed");
+            Log.d("Event Timer", "Feed displayed");
     }
 
     @Override
@@ -113,7 +112,7 @@ public class EventTimerActivity extends AppCompatActivity
         // create an intent
         Intent intent = new Intent(this, EventTimerActivity.class);
 
-        intent.putExtra("time", item.getEventTime());
+        intent.putExtra("eventTime", item.getEventTime());
         intent.putExtra("name", item.getName());
         intent.putExtra("waypoint", item.getWaypoint());
         intent.putExtra("location", item.getLocation());

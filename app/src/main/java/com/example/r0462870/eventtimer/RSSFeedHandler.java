@@ -37,12 +37,12 @@ public class RSSFeedHandler extends DefaultHandler{
 
     @Override
     public void startElement(String namespaceURI, String localName,String qName, Attributes atts) throws SAXException {
-        if (qName.equals("item")) {
+        if (qName.equals("boss")) {
             item = new RSSItem();
         }else if (qName.equals("name")) {
             isName = true;
         }
-        else if (qName.equals("eventTime")) {
+        else if (qName.equals("utc")) {
             isEventTime = true;
         }
         else if (qName.equals("waypoint")) {
@@ -54,22 +54,23 @@ public class RSSFeedHandler extends DefaultHandler{
         else if (qName.equals("pre")) {
             isPre = true;
         }
-        else if (qName.equals("preLocation")) {
+        else if (qName.equals("pre_location")) {
             isPreLocation = true;
         }
-        else if (qName.equals("preWaypoint")) {
+        else if (qName.equals("pre_waypoint")) {
             isPreWaypoint = true;
         }
     }
 
      @Override
      public void endElement(String namespaceURI, String localName, String qName) throws SAXException{
-         if (qName.equals("item")) {
+         if (qName.equals("boss")) {
              feed.addItem(item);
              return;
          }
      }
 
+    @Override
     public void characters(char ch[], int start, int length) throws SAXException
     {
         String s = new String(ch, start, length);
