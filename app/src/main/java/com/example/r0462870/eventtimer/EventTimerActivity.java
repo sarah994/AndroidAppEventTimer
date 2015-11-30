@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,8 +74,6 @@ public class EventTimerActivity extends AppCompatActivity
             titleTextView.setText("Unable to get RSS feed");
             return;
         }
-            // set the title for the feed
-            titleTextView.setText(""/*feed.getName()*/);
 
             // get the items for the feed
             ArrayList<RSSItem> items = feed.getAllItems();
@@ -92,7 +91,7 @@ public class EventTimerActivity extends AppCompatActivity
             // create the resource, from, and to variables
             int resource = R.layout.listview_item;
             String[] from = {"eventTime", "name"};
-            int[] to = {R.id.eventTimeTextView, R.id.titleTextView};
+            int[] to = {R.id.eventTimeTextView, R.id.nameTextView};
 
             // create and set the adapter
             SimpleAdapter adapter =
@@ -110,7 +109,7 @@ public class EventTimerActivity extends AppCompatActivity
         RSSItem item = feed.getItem(position);
 
         // create an intent
-        Intent intent = new Intent(this, EventTimerActivity.class);
+        Intent intent = new Intent(this, EventTimerItem_Activity.class);
 
         intent.putExtra("eventTime", item.getEventTime());
         intent.putExtra("name", item.getName());
@@ -137,8 +136,9 @@ public class EventTimerActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            //Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 

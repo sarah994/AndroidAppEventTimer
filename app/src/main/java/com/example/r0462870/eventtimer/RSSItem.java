@@ -23,9 +23,7 @@ public class RSSItem {
     private SimpleDateFormat dateInFormat =
             new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
 
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name; }
     public void setName(String name) {
         this.name = name;
     }
@@ -40,9 +38,7 @@ public class RSSItem {
     public String getWaypoint() {
         return waypoint;
     }
-    public void setWaypoint(String waypoint) {
-        this.waypoint = waypoint;
-    }
+    public void setWaypoint(String waypoint) { this.waypoint = waypoint; }
 
     public String getLocation() {
         return location;

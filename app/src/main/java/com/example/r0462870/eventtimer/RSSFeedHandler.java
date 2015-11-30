@@ -22,6 +22,8 @@ public class RSSFeedHandler extends DefaultHandler{
     private boolean isPreLocation = false;
     private boolean isPreWaypoint = false;
 
+    private String s ="";
+
     public RSSFeed getFeed() {
         return feed;
     }
@@ -73,30 +75,25 @@ public class RSSFeedHandler extends DefaultHandler{
     @Override
     public void characters(char ch[], int start, int length) throws SAXException
     {
-        String s = new String(ch, start, length);
+        if(s.equals("[")||s.equals("[&")){
+            s = s + new String(ch, start, length);
+        }
+        else {
+            s = new String(ch, start, length);
+        }
         if (isName) {
-            if (feedNameHasBeenRead == false) {
-                feed.setName(s);
-                feedNameHasBeenRead = true;
-            }
-            else {
-                item.setName(s);
-            }
+            item.setName(s);
             isName = false;
         }
         else if (isEventTime) {
-            if (feedEventTimeHasBeenRead == false) {
-                feed.setEventTime(s);
-                feedEventTimeHasBeenRead = true;
-            }
-            else {
-                item.setEventTime(s);
-            }
+            item.setEventTime(s);
             isEventTime = false;
         }
         else if (isWaypoint) {
-            item.setWaypoint(s);
-            isWaypoint = false;
+            if(!s.equals("[")&&!s.equals("[&")) {
+                item.setWaypoint(s);
+                isWaypoint = false;
+            }
         }
         else if (isLocation) {
             item.setLocation(s);
@@ -111,8 +108,10 @@ public class RSSFeedHandler extends DefaultHandler{
             isPreLocation = false;
         }
         else if (isPreWaypoint) {
-            item.setPreWaypoint(s);
-            isPreWaypoint = false;
+            if(!s.equals("[")&&!s.equals("[&")) {
+                item.setPreWaypoint(s);
+                isPreWaypoint = false;
+            }
         }
     }
 }
