@@ -7,8 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".EventTimerActivity"
-    android:background="@drawable/test">
+    tools:context=".EventTimerActivity">
 
     <TextView
         android:id="@+id/titleTextView"
@@ -21,5 +20,5 @@
     <ListView
         android:id="@+id/itemsListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 </RelativeLayout>

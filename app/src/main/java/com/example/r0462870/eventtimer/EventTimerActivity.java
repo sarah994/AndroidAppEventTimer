@@ -1,7 +1,10 @@
 package com.example.r0462870.eventtimer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,10 +30,14 @@ public class EventTimerActivity extends AppCompatActivity
     private TextView titleTextView;
     private ListView itemsListView;
 
+    /*private boolean rememberDarkmodeToggle = false;*/
+    private SharedPreferences savedValues;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_timer);
+        setTheme(R.style.AppThemeDark);
+        //savedValues = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //experimenteel
         io = new FileIO(getApplicationContext());
 
         titleTextView = (TextView) findViewById(R.id.titleTextView);
@@ -101,6 +108,13 @@ public class EventTimerActivity extends AppCompatActivity
             Log.d("Event Timer", "Feed displayed");
     }
 
+    /*@Override
+    public void onPause(){
+        SharedPreferences.Editor editor = savedValues.edit();
+
+        super.onPause();
+    }*/
+
     @Override
     public void onItemClick(AdapterView<?> parent, View v,
                             int position, long id) {
@@ -138,32 +152,10 @@ public class EventTimerActivity extends AppCompatActivity
 
         if (id == R.id.action_settings) {
             //Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, SettingsActivity.class));
+            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-    /*private void startTimer(){
-        final long startMillis = System.currentTimeMillis();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                long elapsedMillis = System.currentTimeMillis() - startMillis;
-                updateView(elapsedMillis);
-            }
-        };
-        Timer timer = new Timer(true);
-        timer.schedule(task, 0, 1000); //elke seconde
-    }
-
-    private void updateView(final long elapsedMillis){
-        //
-    }
-
-    /*@Override
-    public void onItemClick(AdapterView<?> parent, View v, int position, long id){
-        RSSItem item = feed.getItem(position);
-    }*/
 }

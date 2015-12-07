@@ -4,5 +4,5 @@
         android:key="pref_darkmode_toggle"
         android:title="@string/darkmode_title"
         android:summary="@string/darkmode_summary"
-        android:defaultValue="true" />
+        android:defaultValue="true"/>
 </PreferenceScreen>
