@@ -36,7 +36,10 @@ public class EventTimerActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppThemeDark);
+        if (PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean("pref_dark_theme"), false){
+            setTheme(R.style.AppThemeDark);
+        }
         //savedValues = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //experimenteel
         io = new FileIO(getApplicationContext());
 
