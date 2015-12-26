@@ -2,9 +2,7 @@ package com.example.r0462870.eventtimer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class EventTimerActivity extends AppCompatActivity
         implements AdapterView.OnItemClickListener{
@@ -36,12 +31,8 @@ public class EventTimerActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_event_timer);
-        /*if (PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean("pref_dark_theme"), false){
-            setTheme(R.style.AppThemeDark);
-        }*/
-        //savedValues = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()); //experimenteel
         io = new FileIO(getApplicationContext());
 
         titleTextView = (TextView) findViewById(R.id.titleTextView);
@@ -86,30 +77,30 @@ public class EventTimerActivity extends AppCompatActivity
             return;
         }
 
-            // get the items for the feed
-            ArrayList<RSSItem> items = feed.getAllItems();
+        // get the items for the feed
+        ArrayList<RSSItem> items = feed.getAllItems();
 
-            // create a List of Map<String, ?> objects
-            ArrayList<HashMap<String, String>> data =
-                    new ArrayList<HashMap<String, String>>();
-            for (RSSItem item : items) {
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("eventTime", item.getEventTimeFormatted());
-                map.put("name", item.getName());
-                data.add(map);
-            }
+        // create a List of Map<String, ?> objects
+        ArrayList<HashMap<String, String>> data =
+                new ArrayList<HashMap<String, String>>();
+        for (RSSItem item : items) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("eventTime", item.getEventTimeFormatted());
+            map.put("name", item.getName());
+            data.add(map);
+        }
 
-            // create the resource, from, and to variables
-            int resource = R.layout.listview_item;
-            String[] from = {"eventTime", "name"};
-            int[] to = {R.id.eventTimeTextView, R.id.nameTextView};
+        // create the resource, from, and to variables
+        int resource = R.layout.listview_item;
+        String[] from = {"eventTime", "name"};
+        int[] to = {R.id.eventTimeTextView, R.id.nameTextView};
 
-            // create and set the adapter
-            SimpleAdapter adapter =
-                    new SimpleAdapter(this, data, resource, from, to);
-            itemsListView.setAdapter(adapter);
+        // create and set the adapter
+        SimpleAdapter adapter =
+                new SimpleAdapter(this, data, resource, from, to);
+        itemsListView.setAdapter(adapter);
 
-            Log.d("Event Timer", "Feed displayed");
+        Log.d("Event Timer", "Feed displayed");
     }
 
     /*@Override
@@ -154,9 +145,9 @@ public class EventTimerActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            //Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+        if (id == R.id.action_about) {
+            //Toast.makeText(this, "about", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getApplicationContext(), AboutActivity.class));
             return true;
         }
 

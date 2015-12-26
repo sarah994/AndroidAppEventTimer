@@ -5,14 +5,13 @@
 
     </style>
     <style name="AppThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:windowBackground">@drawable/test</item>
-        <item name="android:textColorTertiary">#ffffff</item>
-        <item name="android:textColorSecondary">#ffffff</item>
+        <item name="android:windowBackground">@drawable/light</item>
+        <item name="android:textColorTertiary">#2e2e2e</item>
+        <item name="android:textColorSecondary">#2e2e2e</item>
     </style>
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:background">@drawable/test</item>
-        <item name="android:textColorTertiary">#000000</item>
-        <item name="android:textColorSecondary">#000000</item>
+        <item name="android:windowBackground">@drawable/dark</item>
+        <item name="android:textColorTertiary">#d1d1d1</item>
+        <item name="android:textColorSecondary">#d1d1d1</item>
     </style>
-
 </resources>
