@@ -2,6 +2,7 @@ package com.example.r0462870.eventtimer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 /**
  * Created by r0462870 on 30/11/2015.
