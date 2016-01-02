@@ -14,9 +14,6 @@ public class RSSFeed {
     private String eventTime = null;
     private ArrayList<RSSItem> items;
 
-    private SimpleDateFormat dateInFormat =
-            new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-
     public RSSFeed() {
         items = new ArrayList<RSSItem>();
     }
@@ -28,24 +25,6 @@ public class RSSFeed {
     public String getName() {
         return name;
     }
-
-    public void setEventTime(String eventTime) {
-        this.eventTime = eventTime;
-    }
-
-    public String getEventTimeMillis() {
-        return eventTime;
-    }
-
-    /*public long getEventTimeMillis() {
-        try {
-            Date date = dateInFormat.parse(eventTime.trim());
-            return date.getTime();
-        }
-        catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }*/
 
     public int addItem(RSSItem item) {
         items.add(item);

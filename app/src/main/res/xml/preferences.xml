@@ -3,7 +3,4 @@
     <Preference
         android:key="@+id/aboutDescription"
         android:summary="@string/about_description" />
-    <Preference
-        android:key="@+id/themeToggle"
-        android:summary="@string/themeToggle" />
 </PreferenceScreen>

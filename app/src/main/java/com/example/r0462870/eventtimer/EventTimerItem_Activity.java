@@ -22,7 +22,6 @@ public class EventTimerItem_Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
 
-        TextView titleTextView = (TextView) findViewById(R.id.titleTextView);
         TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
         TextView eventTimeTextView = (TextView) findViewById(R.id.eventTimeTextView);
         TextView waypointTextView = (TextView) findViewById(R.id.waypointTextView);
@@ -57,14 +56,6 @@ public class EventTimerItem_Activity extends AppCompatActivity
     public void onClick(View v) {
         // get the intent
         Intent intent = getIntent();
-
-        /*// create the Uri for the link
-        String link = intent.getStringExtra("link");
-        Uri viewUri = Uri.parse(link);
-
-        // create the intent and start it
-        Intent viewIntent = new Intent(Intent.ACTION_VIEW, viewUri);
-        startActivity(viewIntent);*/
     }
 
 }

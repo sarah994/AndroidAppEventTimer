@@ -1,5 +1,6 @@
 package com.example.r0462870.eventtimer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -21,12 +22,13 @@ public class EventTimerActivity extends AppCompatActivity
         implements AdapterView.OnItemClickListener{
     private RSSFeed feed;
     private FileIO io;
+    private DBEventList db;
+    StringBuilder sb = new StringBuilder();
 
     private TextView titleTextView;
     private ListView itemsListView;
 
-    /*private boolean rememberDarkmodeToggle = false;*/
-    private SharedPreferences savedValues;
+    private int positionFirst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,27 @@ public class EventTimerActivity extends AppCompatActivity
         itemsListView.setOnItemClickListener(this);
 
         new DownloadFeed().execute();
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                EventTimerActivity.this.updateDisplay();
+                            }
+                        });
+                    }
+                }
+                catch (InterruptedException e) {
+
+                }
+            }
+        };
+        t.start();
     }
 
     class DownloadFeed extends AsyncTask<Void, Void, Void>{
@@ -67,7 +90,21 @@ public class EventTimerActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(Void result){
             Log.d("Event timer", "Feed read");
-            EventTimerActivity.this.updateDisplay();
+            EventTimerActivity.this.uploadAllDataToDatabase();
+        }
+    }
+
+    public void uploadAllDataToDatabase() {
+        db = new DBEventList(this);
+        ArrayList<RSSItem> items = feed.getAllItems();
+
+        for (RSSItem item : items) {
+            DBEvent event = new DBEvent(1, item.getName(), item.getNr(), item.getEventTime(), item.getWaypoint(), item.getLocation(), item.getPre(), item.getPreLocation(), item.getPreWaypoint());
+            long insertId = db.insertEvent(event);
+            if(insertId > 0)
+            {
+                sb.append("Row inserted! Insert id: " +insertId + "\n");
+            }
         }
     }
 
@@ -78,15 +115,26 @@ public class EventTimerActivity extends AppCompatActivity
         }
 
         // get the items for the feed
-        ArrayList<RSSItem> items = feed.getAllItems();
+        //ArrayList<RSSItem> items = feed.getAllItems();
+        ArrayList<DBEvent> events = db.getEvents("events");
 
         // create a List of Map<String, ?> objects
         ArrayList<HashMap<String, String>> data =
                 new ArrayList<HashMap<String, String>>();
-        for (RSSItem item : items) {
+
+
+        /*for (RSSItem item : items) {
             HashMap<String, String> map = new HashMap<String, String>();
+            map.put("nr", item.getNr());
             map.put("eventTime", item.getEventTimeFormatted());
             map.put("name", item.getName());
+            data.add(map);
+        }*/
+        for (DBEvent event : events) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("nr", event.getNr());
+            map.put("eventTime", event.getEventTime());
+            map.put("name", event.getName());
             data.add(map);
         }
 
@@ -103,19 +151,12 @@ public class EventTimerActivity extends AppCompatActivity
         Log.d("Event Timer", "Feed displayed");
     }
 
-    /*@Override
-    public void onPause(){
-        SharedPreferences.Editor editor = savedValues.edit();
-
-        super.onPause();
-    }*/
-
     @Override
     public void onItemClick(AdapterView<?> parent, View v,
                             int position, long id) {
 
         // get the item at the specified position
-        RSSItem item = feed.getItem(position);
+        RSSItem item = feed.getItem(positionFirst+position);
 
         // create an intent
         Intent intent = new Intent(this, EventTimerItem_Activity.class);

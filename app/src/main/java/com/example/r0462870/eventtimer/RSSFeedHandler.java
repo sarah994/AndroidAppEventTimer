@@ -14,6 +14,7 @@ public class RSSFeedHandler extends DefaultHandler{
     private boolean feedNameHasBeenRead = false;
     private boolean feedEventTimeHasBeenRead = false;
 
+    private boolean isNr = false;
     private boolean isName = false;
     private boolean isEventTime = false;
     private boolean isWaypoint = false;
@@ -41,7 +42,10 @@ public class RSSFeedHandler extends DefaultHandler{
     public void startElement(String namespaceURI, String localName,String qName, Attributes atts) throws SAXException {
         if (qName.equals("boss")) {
             item = new RSSItem();
-        }else if (qName.equals("name")) {
+        }else if (qName.equals("nr")) {
+            isNr = true;
+        }
+        else if (qName.equals("name")) {
             isName = true;
         }
         else if (qName.equals("utc")) {
@@ -84,6 +88,10 @@ public class RSSFeedHandler extends DefaultHandler{
         if (isName) {
             item.setName(s);
             isName = false;
+        }
+        else if (isNr) {
+            item.setNr(s);
+            isNr = false;
         }
         else if (isEventTime) {
             item.setEventTime(s);

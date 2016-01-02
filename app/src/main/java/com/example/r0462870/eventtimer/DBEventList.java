@@ -30,8 +30,20 @@ public class DBEventList {
     public static final int EVENT_LIST_ID_COL = 1;
     public static final String EVENT_NAME = "event_name";
     public static final int EVENT_NAME_COL = 2;
-    public static final String EVENT_THEME = "theme";
-    public static final int EVENT_THEME_COL = 3;
+    public static final String EVENT_NR = "event_nr";
+    public static final int EVENT_NR_COL = 3;
+    public static final String EVENT_TIME = "event_time";
+    public static final int EVENT_TIME_COL = 4;
+    public static final String EVENT_WAYPOINT = "event_waypoint";
+    public static final int EVENT_WAYPOINT_COL = 5;
+    public static final String EVENT_LOCATION = "event_location";
+    public static final int EVENT_LOCATION_COL = 6;
+    public static final String EVENT_PRE = "event_pre";
+    public static final int EVENT_PRE_COL = 7;
+    public static final String EVENT_PRELOCATION = "event_pre_location";
+    public static final int EVENT_PRELOCATION_COL = 8;
+    public static final String EVENT_PREWAYPOINT = "event_pre_waypoint";
+    public static final int EVENT_PREWAYPOINT_COL = 9;
 
     public static final String CREATE_LIST_TABLE = "CREATE TABLE " + LIST_TABLE + " (" +
             LIST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -40,7 +52,13 @@ public class DBEventList {
             EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             EVENT_LIST_ID + " INTEGER NOT NULL, " +
             EVENT_NAME + " TEXT NOT NULL, " +
-            EVENT_THEME + " TEXT);";
+            EVENT_NR + " TEXT NOT NULL, " +
+            EVENT_TIME + " TEXT NOT NULL, " +
+            EVENT_WAYPOINT + " TEXT NOT NULL, " +
+            EVENT_LOCATION + " TEXT NOT NULL, " +
+            EVENT_PRE + " TEXT NOT NULL, " +
+            EVENT_PRELOCATION + " TEXT NOT NULL, " +
+            EVENT_PREWAYPOINT + " TEXT NOT NULL);";
     public static final String DROP_LIST_TABLE = "DROP TABLE IF EXISTS " + LIST_TABLE;
     public static final String DROP_EVENT_TABLE = "DROP TABLE IF EXISTS " + EVENT_TABLE;
 
@@ -78,9 +96,7 @@ public class DBEventList {
             db.execSQL(CREATE_LIST_TABLE);
             db.execSQL(CREATE_EVENT_TABLE);
 
-            db.execSQL("INSERT INTO list VALUES (1, 'theme')");
-
-            db.execSQL("INSERT INTO event VALUES (1,1, 'colorTheme', 'light')");
+            db.execSQL("INSERT INTO list VALUES (1, 'events')");
         }
 
         @Override
@@ -95,7 +111,7 @@ public class DBEventList {
     public ArrayList<DBEvent> getEvents(String listName){
         String where = EVENT_LIST_ID + "= ?";
         int listID = getList(listName).getId();
-        String[] whereArgs = { listName };
+        String[] whereArgs = { Integer.toString(listID) };
 
         this.openReadableDB();
         Cursor cursor = db.query(EVENT_TABLE, null, where, whereArgs, null, null, null);
@@ -114,7 +130,7 @@ public class DBEventList {
         String[] whereArgs = { name };
 
         this.openReadableDB();
-        Cursor cursor = db.query(EVENT_TABLE, null, where, whereArgs,null, null, null);
+        Cursor cursor = db.query(LIST_TABLE, null, where, whereArgs, null, null, null);
         cursor.moveToFirst();
         DBList dbl = getListFromCursor(cursor);
         if(cursor != null)
@@ -145,7 +161,17 @@ public class DBEventList {
         }
         else{
             try{
-                DBEvent dbe = new DBEvent(cursor.getInt(EVENT_ID_COL), cursor.getInt(EVENT_LIST_ID_COL), cursor.getString(EVENT_NAME_COL), cursor.getString(EVENT_THEME_COL));
+                DBEvent dbe = new DBEvent(
+                        cursor.getInt(EVENT_ID_COL),
+                        cursor.getInt(EVENT_LIST_ID_COL),
+                        cursor.getString(EVENT_NAME_COL),
+                        cursor.getString(EVENT_NR_COL),
+                        cursor.getString(EVENT_TIME_COL),
+                        cursor.getString(EVENT_WAYPOINT_COL),
+                        cursor.getString(EVENT_LOCATION_COL),
+                        cursor.getString(EVENT_PRE_COL),
+                        cursor.getString(EVENT_PRELOCATION_COL),
+                        cursor.getString(EVENT_PREWAYPOINT_COL));
                 return dbe;
             }
             catch (Exception e){
@@ -157,8 +183,14 @@ public class DBEventList {
     public long insertEvent(DBEvent dbe){
         ContentValues cv = new ContentValues();
         cv.put(EVENT_LIST_ID, dbe.getListId());
-        cv.put(EVENT_NAME, dbe.getname());
-        cv.put(EVENT_THEME, dbe.getTheme());
+        cv.put(EVENT_NAME, dbe.getName());
+        cv.put(EVENT_NR, dbe.getNr());
+        cv.put(EVENT_TIME , dbe.getEventTime());
+        cv.put(EVENT_WAYPOINT , dbe.getWaypoint());
+        cv.put(EVENT_LOCATION , dbe.getLocation());
+        cv.put(EVENT_PRE , dbe.getPre());
+        cv.put(EVENT_PRELOCATION , dbe.getPreLocation());
+        cv.put(EVENT_PREWAYPOINT , dbe.getPreWaypoint());
 
         this.openWriteableDB();
         long rowID = db.insert(EVENT_TABLE, null, cv);
@@ -169,8 +201,14 @@ public class DBEventList {
     public int updateEvent(DBEvent dbe){
         ContentValues cv = new ContentValues();
         cv.put(EVENT_LIST_ID, dbe.getListId());
-        cv.put(EVENT_NAME, dbe.getname());
-        cv.put(EVENT_THEME, dbe.getTheme());
+        cv.put(EVENT_NAME, dbe.getName());
+        cv.put(EVENT_NR, dbe.getNr());
+        cv.put(EVENT_TIME , dbe.getEventTime());
+        cv.put(EVENT_WAYPOINT , dbe.getWaypoint());
+        cv.put(EVENT_LOCATION , dbe.getLocation());
+        cv.put(EVENT_PRE , dbe.getPre());
+        cv.put(EVENT_PRELOCATION , dbe.getPreLocation());
+        cv.put(EVENT_PREWAYPOINT , dbe.getPreWaypoint());
         String where = EVENT_ID +"= ?";
         String[] whereArgs = {String.valueOf(dbe.getId())};
 
