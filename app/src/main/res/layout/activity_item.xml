@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
@@ -18,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_below="@id/nameTextView"
         android:text="@string/item_eventTime"
         android:textSize="20sp" />
     <TextView
@@ -26,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_below="@+id/eventTimeTextView"
         android:text="@string/item_location"
         android:textSize="20sp" />
     <TextView
@@ -34,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_below="@+id/locationTextView"
         android:text="@string/item_waypoint"
         android:textSize="20sp" />
     <TextView
@@ -43,6 +47,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_below="@+id/waypointTextView"
         android:text="@string/item_preTitle"
         android:textSize="24sp" />
     <TextView
@@ -51,6 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_below="@+id/preTitleTextView"
         android:text="@string/item_pre"
         android:textSize="20sp" />
     <TextView
@@ -59,6 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_below="@+id/preTextView"
         android:text="@string/item_preLocation"
         android:textSize="20sp" />
     <TextView
@@ -67,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_below="@+id/preLocationTextView"
         android:text="@string/item_preWaypoint"
         android:textSize="20sp" />
-</LinearLayout>
+</RelativeLayout>

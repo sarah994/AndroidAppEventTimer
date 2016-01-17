@@ -1,5 +1,9 @@
 package com.example.r0462870.eventtimer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by Sarah on 26/12/2015.
  */
@@ -64,7 +68,7 @@ public class DBEvent {
     public String getNr(){ return nr;}
 
     public void setEventTime(String eventTime) { this.eventTime = eventTime;}
-    public String getEventTime(){ return eventTime;}
+    public String getEventTime(){ return eventTime; }
 
     public void setWaypoint(String waypoint) { this.waypoint = waypoint;}
     public String getWaypoint(){ return waypoint;}
