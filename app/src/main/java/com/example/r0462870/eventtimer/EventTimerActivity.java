@@ -200,13 +200,7 @@ public class EventTimerActivity extends AppCompatActivity
         String[] dateSplit = date.split(":");
         String dateWithTimeZone = dateSplit[0]+dateSplit[1];
         String[] dateTimeZoneSplit = dateWithTimeZone.split(" ");
-        int result;
-        if(Integer.parseInt(dateTimeZoneSplit[0])==0){
-            result= 60;
-        }
-        else{
-            result = Integer.parseInt(dateTimeZoneSplit[0]);
-        }
+        int result = Integer.parseInt(dateTimeZoneSplit[0]);
         return result;
     }
 

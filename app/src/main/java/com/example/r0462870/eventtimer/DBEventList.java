@@ -196,36 +196,4 @@ public class DBEventList {
         this.closeDB();
         return rowID;
     }
-
-    public int updateEvent(DBEvent dbe){
-        ContentValues cv = new ContentValues();
-        cv.put(EVENT_LIST_ID, dbe.getListId());
-        cv.put(EVENT_NAME, dbe.getName());
-        cv.put(EVENT_NR, dbe.getNr());
-        cv.put(EVENT_TIME , dbe.getEventTime());
-        cv.put(EVENT_WAYPOINT , dbe.getWaypoint());
-        cv.put(EVENT_LOCATION , dbe.getLocation());
-        cv.put(EVENT_PRE , dbe.getPre());
-        cv.put(EVENT_PRELOCATION , dbe.getPreLocation());
-        cv.put(EVENT_PREWAYPOINT , dbe.getPreWaypoint());
-        String where = EVENT_ID +"= ?";
-        String[] whereArgs = {String.valueOf(dbe.getId())};
-
-        this.openWriteableDB();
-        int rowCount = db.update(EVENT_TABLE, cv, where, whereArgs);
-        this.closeDB();
-
-        return rowCount;
-    }
-
-    public int deleteTask(long id){
-        String where = EVENT_ID + "= ?";
-        String[] whereArgs = { String.valueOf(id)};
-
-        this.openWriteableDB();
-        int rowCount = db.delete(EVENT_TABLE, where, whereArgs);
-        this.closeDB();
-
-        return rowCount;
-    }
  }
